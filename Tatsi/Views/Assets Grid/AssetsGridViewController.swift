@@ -54,12 +54,27 @@ final internal class AssetsGridViewController: UICollectionViewController, Picke
         return self.config?.showCameraOption ?? false
     }
     
-    fileprivate var emptyView: AlbumEmptyView? {
+    fileprivate var defaultEmptyView: AlbumEmptyView? {
         didSet {
-            self.emptyView?.colors = self.config?.colors
-            self.collectionView?.backgroundView = self.emptyView
+            applyEmptyView()
         }
     }
+
+    public var customEmptyView: UIView? = nil {
+        didSet {
+            applyEmptyView()
+        }
+    }
+
+    fileprivate func applyEmptyView() {
+        if let custom = customEmptyView {
+            self.collectionView?.backgroundView = self.customEmptyView
+        } else {
+            self.defaultEmptyView?.colors = self.config?.colors
+            self.collectionView?.backgroundView = self.defaultEmptyView
+        }
+    }
+
     
     fileprivate let thumbnailCachingManager: PHCachingImageManager = {
         let manager = PHCachingImageManager()
@@ -93,7 +108,9 @@ final internal class AssetsGridViewController: UICollectionViewController, Picke
                     for selectedAsset in self.selectedAssets {
                         self.selectAsset(selectedAsset)
                     }
-                    self.emptyView = collectionView.numberOfItems(inSection: 0) <= 0  ? AlbumEmptyView() : nil
+
+                    self.defaultEmptyView = collectionView.numberOfItems(inSection: 0) <= 0  ? AlbumEmptyView() : nil
+                    self.customEmptyView?.isHidden = collectionView.numberOfItems(inSection: 0) <= 0
                 })
                 
             }
@@ -290,7 +307,10 @@ final internal class AssetsGridViewController: UICollectionViewController, Picke
             return
         }
         if !self.showCameraButton {
-            self.emptyView = AlbumEmptyView(state: .loading)
+            self.defaultEmptyView = AlbumEmptyView(state: .loading)
+            if var emptyView = self.customEmptyView as? EmptyView {
+                emptyView.state = .loading
+            }
         }
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let strongSelf = self else {
@@ -321,7 +341,7 @@ final internal class AssetsGridViewController: UICollectionViewController, Picke
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.emptyView?.layoutMargins = UIEdgeInsets(top: self.topLayoutGuide.length + 20, left: 20, bottom: self.bottomLayoutGuide.length + 20, right: 20)
+        (self.customEmptyView ?? self.defaultEmptyView)?.layoutMargins = UIEdgeInsets(top: self.topLayoutGuide.length + 20, left: 20, bottom: self.bottomLayoutGuide.length + 20, right: 20)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

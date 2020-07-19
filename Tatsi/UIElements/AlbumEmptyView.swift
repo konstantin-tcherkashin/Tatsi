@@ -8,32 +8,36 @@
 
 import UIKit
 
-final internal class AlbumEmptyView: UIView {
-    
-    enum EmptyState {
-        case loading
-        case noAssets
-        
-        var title: String {
-            switch self {
-            case .noAssets:
-                return LocalizableStrings.emptyAlbumTitle
-            case .loading:
-                return LocalizableStrings.albumLoading
-            }
-        }
-        
-        var message: String? {
-            switch self {
-            case .noAssets:
-                return LocalizableStrings.emptyAlbumMessage
-            default:
-                return nil
-            }
+protocol EmptyView {
+    var state: EmptyViewState! { get set }
+}
+
+enum EmptyViewState {
+    case loading
+    case noAssets
+
+    var title: String {
+        switch self {
+        case .noAssets:
+            return LocalizableStrings.emptyAlbumTitle
+        case .loading:
+            return LocalizableStrings.albumLoading
         }
     }
+
+    var message: String? {
+        switch self {
+        case .noAssets:
+            return LocalizableStrings.emptyAlbumMessage
+        default:
+            return nil
+        }
+    }
+}
+
+final internal class AlbumEmptyView: UIView, EmptyView {
     
-    private let state: EmptyState
+    internal var state: EmptyViewState!
 
     lazy private var titleLabel: UILabel = {
         let label = UILabel()
@@ -72,7 +76,7 @@ final internal class AlbumEmptyView: UIView {
         }
     }
     
-    init(state: EmptyState = .noAssets) {
+    init(state: EmptyViewState = .noAssets) {
         self.state = state
         
         super.init(frame: CGRect())
