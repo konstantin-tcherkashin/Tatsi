@@ -68,7 +68,7 @@ final internal class AssetsGridViewController: UICollectionViewController, Picke
 
     fileprivate func applyEmptyView() {
         if let custom = customEmptyView {
-            self.collectionView?.backgroundView = self.customEmptyView
+            self.collectionView?.backgroundView = custom
         } else {
             self.defaultEmptyView?.colors = self.config?.colors
             self.collectionView?.backgroundView = self.defaultEmptyView

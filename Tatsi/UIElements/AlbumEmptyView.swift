@@ -17,7 +17,7 @@ public enum TatsiEmptyViewState {
     case noAssets
     case hidden
 
-    var title: String {
+    public var title: String {
         switch self {
         case .noAssets:
             return LocalizableStrings.emptyAlbumTitle
@@ -28,7 +28,7 @@ public enum TatsiEmptyViewState {
         }
     }
 
-    var message: String? {
+    public var message: String? {
         switch self {
         case .noAssets:
             return LocalizableStrings.emptyAlbumMessage
