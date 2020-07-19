@@ -309,7 +309,7 @@ final internal class AssetsGridViewController: UICollectionViewController, Picke
         }
         if !self.showCameraButton {
             self.defaultEmptyView = AlbumEmptyView(state: .loading)
-            if var emptyView = self.customEmptyView as? EmptyView {
+            if var emptyView = self.customEmptyView as? TatsiEmptyView {
                 emptyView.state = .loading
             }
         }

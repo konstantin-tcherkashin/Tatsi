@@ -8,13 +8,14 @@
 
 import UIKit
 
-protocol EmptyView {
-    var state: EmptyViewState! { get set }
+public protocol TatsiEmptyView {
+    var state: TatsiEmptyViewState! { get set }
 }
 
-enum EmptyViewState {
+public enum TatsiEmptyViewState {
     case loading
     case noAssets
+    case hidden
 
     var title: String {
         switch self {
@@ -22,6 +23,8 @@ enum EmptyViewState {
             return LocalizableStrings.emptyAlbumTitle
         case .loading:
             return LocalizableStrings.albumLoading
+        case .hidden:
+            return ""
         }
     }
 
@@ -35,9 +38,9 @@ enum EmptyViewState {
     }
 }
 
-final internal class AlbumEmptyView: UIView, EmptyView {
+final internal class AlbumEmptyView: UIView, TatsiEmptyView {
     
-    internal var state: EmptyViewState!
+    internal var state: TatsiEmptyViewState!
 
     lazy private var titleLabel: UILabel = {
         let label = UILabel()
@@ -76,7 +79,7 @@ final internal class AlbumEmptyView: UIView, EmptyView {
         }
     }
     
-    init(state: EmptyViewState = .noAssets) {
+    init(state: TatsiEmptyViewState = .noAssets) {
         self.state = state
         
         super.init(frame: CGRect())
