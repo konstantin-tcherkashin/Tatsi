@@ -258,7 +258,7 @@ extension AlbumsViewController {
         if let delegate = self.delegate {
             delegate.albumsViewController(self, didSelectAlbum: album)
         } else {
-            let gridViewController = AssetsGridViewController(album: album)
+            let gridViewController = AssetsGridViewController(album: album, customEmptyView: config?.customEmptyView)
             self.navigationController?.pushViewController(gridViewController, animated: true)
         }
         self.didSelectCollection(album)

@@ -54,7 +54,7 @@ final public class TatsiPickerViewController: UINavigationController {
                 break
             }
             if let initialAlbum = album ?? userLibrary, self.config.singleViewMode {
-                self.viewControllers = [AssetsGridViewController(album: initialAlbum)]
+                self.viewControllers = [AssetsGridViewController(album: initialAlbum, customEmptyView: config.customEmptyView)]
             } else {
                 self.showAlbumViewController(with: album)
             }
@@ -69,7 +69,7 @@ final public class TatsiPickerViewController: UINavigationController {
     
     private func showAlbumViewController(with collection: PHAssetCollection?) {
         if let collection = collection {
-            self.viewControllers = [AlbumsViewController(), AssetsGridViewController(album: collection)]
+            self.viewControllers = [AlbumsViewController(), AssetsGridViewController(album: collection, customEmptyView: config.customEmptyView)]
         } else {
             self.viewControllers = [AlbumsViewController()]
         }

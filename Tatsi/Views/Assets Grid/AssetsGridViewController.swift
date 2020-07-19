@@ -128,9 +128,10 @@ final internal class AssetsGridViewController: UICollectionViewController, Picke
     
     // MARK: - Initializers
     
-    init(album: PHAssetCollection) {
+    init(album: PHAssetCollection, customEmptyView: UIView?) {
         self.album = album
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
+        self.customEmptyView = customEmptyView
     }
     
     required init?(coder aDecoder: NSCoder) {

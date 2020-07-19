@@ -126,6 +126,9 @@ public struct TatsiConfig {
         
         return bannedAlbumSubtypes
     }
+
+    /// Custom view to display Loading/Not Found/etc
+    public var customEmptyView: UIView? = nil
     
     /// Creates and returns the fetch options to use for fetching assets based on the config. Nil if the fetchOptions are not needed.
     internal func assetFetchOptions() -> PHFetchOptions? {
