@@ -111,6 +111,13 @@ final internal class AssetsGridViewController: UICollectionViewController, Picke
 
                     self.defaultEmptyView = collectionView.numberOfItems(inSection: 0) <= 0  ? AlbumEmptyView() : nil
                     self.customEmptyView?.isHidden = collectionView.numberOfItems(inSection: 0) <= 0
+
+                    if collectionView.numberOfItems(inSection: 0) > 0 {
+                        self.defaultEmptyView?.state = .hidden
+                        if var emptyView = self.customEmptyView as? TatsiEmptyView {
+                            emptyView.state = .hidden
+                        }
+                    }
                 })
                 
             }
